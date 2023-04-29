@@ -12,7 +12,7 @@ size = (75, 75)
 random.seed(42)
 
 
-def resizing(path, save_path, _size=(100, 100)):
+def resizing(img_path, save_path, _size=(100, 100)):
     print('\n> load images')
     for filename in tqdm(os.listdir(path)):
         img = plt.imread(os.path.join(path, filename))
@@ -97,9 +97,8 @@ def create_pics(data, data_values, coded, range_idx, range_val, it):
     return images, values
 
 
-def make_coded_img(data, data_values, sample_img, sample_values, num_of_ranges=28):
+def make_coded_img(data, data_values, sample_img, sample_values, num_of_ranges=28, output_name="result.jpg"):
     range_arr = np.linspace(0, 255, num_of_ranges)
-    # data_values = np.array([2, 4, 1, 17, 6, 9, 12, 8])
 
     coded = np.zeros(data_values.shape)
 
@@ -150,14 +149,14 @@ def make_coded_img(data, data_values, sample_img, sample_values, num_of_ranges=2
 
     gamma = gaussian_filter(gamma, sigma=1)
 
-    plt.imsave('result.jpg', gamma, cmap='gray')
+    plt.imsave(output_name, gamma, cmap='gray')
     #plt.show()
 
 if __name__ == "__main__":
 
-    r = False
-    if r:
-        resizing('img', 'resized_img_square/')
+    resize = False
+    if resize:
+        resizing(img_path='img_database', save_path='resized_img_square/')
     else:
         # fit sample to encoding size
         # sample = plt.imread('DSC00738.JPG')
@@ -182,7 +181,7 @@ if __name__ == "__main__":
 
         data, data_values = load_img('resized_img_square')
 
-        make_coded_img(data, data_values, sample, coded_values)
+        make_coded_img(data, data_values, sample, coded_values, output_name="result_test.jpg")
 
 
 
