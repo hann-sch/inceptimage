@@ -1,5 +1,7 @@
-/*
-/*/*
+*
 
 !.gitignore
+
+!image_presentation
+!image_presentation/*.jpg
 !*.py
