@@ -14,8 +14,11 @@ random.seed(42)
 
 def resizing(img_path, save_path, _size=(100, 100)):
     print('\n> load images')
-    for filename in tqdm(os.listdir(path)):
-        img = plt.imread(os.path.join(path, filename))
+    if not os.path.isdir(save_path):
+        os.mkdir(save_path)
+
+    for filename in tqdm(os.listdir(img_path)):
+        img = plt.imread(os.path.join(img_path, filename))
         if img is not None:
             img = color.rgb2gray(img) * 255
             y, x = img.shape
@@ -33,7 +36,7 @@ def resizing(img_path, save_path, _size=(100, 100)):
 
             img_down = transform.resize(img_q, _size)
 
-            plt.imsave(save_path + filename, img_down, cmap='gray')
+            plt.imsave(os.path.join(save_path, filename), img_down, cmap='gray')
 
 
 def load_img(path):
@@ -155,12 +158,14 @@ def make_coded_img(data, data_values, sample_img, sample_values, num_of_ranges=2
 if __name__ == "__main__":
 
     resize = False
+    resized_img_path = "test_resized_img_square"
     if resize:
-        resizing(img_path='img_database', save_path='resized_img_square/')
+        resizing(img_path='test_database', save_path=resized_img_path)
     else:
         # fit sample to encoding size
         # sample = plt.imread('DSC00738.JPG')
-        sample = plt.imread('DSC00887.JPG')
+        # sample = plt.imread('DSC00887.JPG')
+        sample = plt.imread('test_database/00002_TE_2144x1424.png')
 
         sample = color.rgb2gray(sample) * 255
 
@@ -179,7 +184,7 @@ if __name__ == "__main__":
 
         coded_values = encode_img(sample)
 
-        data, data_values = load_img('resized_img_square')
+        data, data_values = load_img(resized_img_path)
 
         make_coded_img(data, data_values, sample, coded_values, output_name="result_test.jpg")
 
